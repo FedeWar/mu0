@@ -1,0 +1,11 @@
+# Ignore objects and automatic files
+*.o
+*.cf
+
+# Ignore executables
+mu0
+dp_test
+
+# Ignore python
+*__pycache__*
+*.pyc
