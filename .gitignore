@@ -2,6 +2,7 @@
 *.o
 *.cf
 *.vcd
+*.hex
 
 # Ignore executables
 mu0
