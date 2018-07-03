@@ -2,6 +2,16 @@
 
 VHDL implementation of the mu0 microprocessor, for educational purposes.
 
+## Dependencies
+
+To compile and execute the source code the following softwares are needed: `GHDL`, other simulators might work but were not tested; `GNU Make` for the makefile; `GTKWave` to plot signals; `python3` to execute the assembler, `python2` might work but was not tested.
+
+All the dependencies are free and downloadable from your favourite package manager.
+
+`$ dnf install make ghdl gtkwave python3`
+
+The project was tested only on Linux Fedora.
+
 ## How to use the makefile
 
 It is possible to invoke a few commands from the makefile to automatically compile and run the simulation.
