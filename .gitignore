@@ -1,6 +1,7 @@
 # Ignore objects and automatic files
 *.o
 *.cf
+*.vcd
 
 # Ignore executables
 mu0
