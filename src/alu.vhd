@@ -66,6 +66,10 @@ architecture arch of alu is
 	signal asel : std_logic;
 	signal bsel : std_logic;
 
+	-- Segnali per l'inversione degli operandi
+	signal cnota : std_logic_vector(15 downto 0);
+	signal cnotb : std_logic_vector(15 downto 0);
+
 	-- Uscite dei muxer
 	signal aout : std_logic_vector(15 downto 0);
 	signal bout : std_logic_vector(15 downto 0);
@@ -75,21 +79,31 @@ begin
 	BMUX : mux generic map(16) port map(zero, BBUS, bsel, bout);
 
 	GENADD : for i in 0 to 15 generate
-		adder : fulladder port map(aout(i), bout(i), cins(i), adderout(i), cins(i+1));
+		adder : fulladder port map(cnota(i), cnotb(i), cins(i), adderout(i), cins(i+1));
 	end generate;
 
+	-- Attivo quando l'operando è usato
 	asel <= '0' when (ALUfs = "000") or (ALUfs = "010") or (ALUfs = "100") else '1';
 	bsel <= '0' when (ALUfs = "000") or (ALUfs = "001") or (ALUfs = "011") else '1';
 
-	cins(0) <= '1' when (ALUfs = "011") or (ALUfs = "100") else '0';
+	-- Inversione dell'operando quando necessario
+	cnota <= (not aout) when (ALUfs = "111") else aout;
+	cnotb <= (not bout) when (ALUfs = "110") else bout;
+
+	cins(0) <= '1' when 
+		(ALUfs = "011") or
+		(ALUfs = "100") or
+		(ALUfs = "110") or	-- Per il complemento a 2 bisogna aggiungere 1
+		(ALUfs = "111")
+		else '0';
 
 	O <= "0000000000000000" when ALUfs = "000" else -- =0
-	ABUS when ALUfs = "001" else					-- =A
-	BBUS when ALUfs = "010" else					-- =B
-	adderout when ALUfs = "011" else		-- A+1
-	adderout when ALUfs = "100" else		-- B+1
-	adderout when ALUfs = "101" else		-- A+B
-	adderout when ALUfs = "110" else		-- A-B
-	adderout when ALUfs = "111";			-- B-A
+		ABUS when ALUfs = "001" else				-- =A
+		BBUS when ALUfs = "010" else				-- =B
+		adderout when ALUfs = "011" else		-- A+1
+		adderout when ALUfs = "100" else		-- B+1
+		adderout when ALUfs = "101" else		-- A+B
+		adderout when ALUfs = "110" else		-- A-B
+		adderout when ALUfs = "111";			-- B-A
 
 end architecture;
