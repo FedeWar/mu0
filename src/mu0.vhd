@@ -20,6 +20,7 @@ architecture main of mu0 is
 	signal ACCoe : std_logic;
 	signal ALUfs : std_logic_vector(2 downto 0);
 	signal IRbus : std_logic_vector(3 downto 0);
+	signal ACCstatus : std_logic_vector(1 downto 0);
 	
 	-- Segnali alla memoria
 	signal MEMrq : std_logic;
@@ -37,8 +38,8 @@ architecture main of mu0 is
 			IRce : in std_logic;
 			ACCoe : in std_logic;
 			ALUfs : in std_logic_vector;
-			IRbus : out std_logic_vector
-			-- TODO out ACC15
+			IRbus : out std_logic_vector;
+			ACCstatus : out std_logic_vector
 		);
 	end component;
 
@@ -51,7 +52,7 @@ architecture main of mu0 is
 		);
 	end component;
 begin
-	dpath : datapath port map(clk, bus_addr, bus_data, Asel, Bsel, ACCce, PCce, IRce, ACCoe, ALUfs, IRbus);
+	dpath : datapath port map(clk, bus_addr, bus_data, Asel, Bsel, ACCce, PCce, IRce, ACCoe, ALUfs, IRbus, ACCstatus);
 	mem : memory port map(bus_addr, bus_data, MEMrq, RnW);
 
 	CONTROL : process(clk)
@@ -113,7 +114,7 @@ begin
 				RnW <= '1';
 				exfs <= '0';
 			elsif IRbus = "0101" then	-- JGE
-				Asel <= '1'; -- TODO
+				Asel <= not ACCstatus(1);
 				Bsel <= '0';
 				ACCce <= '0';
 				PCce <= '1';
@@ -124,7 +125,7 @@ begin
 				RnW <= '1';
 				exfs <= '0';
 			elsif IRbus = "0110" then	-- JNE
-				Asel <= '1'; -- TODO
+				Asel <= ACCstatus(0);
 				Bsel <= '0';
 				ACCce <= '0';
 				PCce <= '1';

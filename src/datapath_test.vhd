@@ -20,6 +20,7 @@ architecture test of dp_test is
 	signal ACCoe : std_logic;
 	signal ALUfs : std_logic_vector(2 downto 0);
 	signal IRbus : std_logic_vector(3 downto 0);
+	signal ACCstatus : std_logic_vector(1 downto 0);
 	
 	-- Segnali alla memoria
 	signal MEMrq : std_logic;
@@ -37,8 +38,8 @@ architecture test of dp_test is
 			IRce : in std_logic;
 			ACCoe : in std_logic;
 			ALUfs : in std_logic_vector;
-			IRbus : out std_logic_vector
-			-- TODO out ACC15
+			IRbus : out std_logic_vector;
+			ACCstatus : out std_logic_vector
 		);
 	end component;
 
@@ -65,7 +66,7 @@ architecture test of dp_test is
 		);
 	end component;
 begin
-	dpath : datapath port map(clk, bus_addr, bus_data, Asel, Bsel, ACCce, PCce, IRce, ACCoe, ALUfs, IRbus);
+	dpath : datapath port map(clk, bus_addr, bus_data, Asel, Bsel, ACCce, PCce, IRce, ACCoe, ALUfs, IRbus, ACCstatus);
 	mem : memory port map(bus_addr, bus_data, MEMrq, RnW);
 
 	-- TODO test registri

@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+--use ieee.std_logic_misc.all;
 
 entity datapath is
 	port(
@@ -12,10 +13,15 @@ entity datapath is
 		PCce : in std_logic;
 		IRce : in std_logic;
 		ACCoe : in std_logic;
-		-- questo è un simbolo a 3 bit
 		ALUfs : in std_logic_vector(2 downto 0);
+
 		-- l'IR deve essere disponibile anche alla logica di controllo
-		IRbus : out std_logic_vector(3 downto 0)
+		IRbus : out std_logic_vector(3 downto 0);
+
+		-- Due bit che rappresentano lo stato del registro di accumulazione
+		-- 0b01 = ACC è zero
+		-- 0b10 = ACC è negativo
+		ACCstatus : out std_logic_vector(1 downto 0)
 	);
 end datapath;
 
@@ -93,6 +99,10 @@ begin
 	amux1(11 downto 0) <= adapter(15 downto 4);
 	bus_addr <= bmux0(11 downto 0); --(15 downto 4);
 	IRbus <= adapter(3 downto 0);
+
+	-- Definizione dello stato dell'accumlatore
+	ACCstatus(0) <= nor alu_a;
+	ACCstatus(1) <= alu_a(15);
 
 	-- Procedura di inizializzazione
 	INIT : process
