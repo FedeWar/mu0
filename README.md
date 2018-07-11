@@ -46,7 +46,7 @@ Here goes the list of all the known bugs and flaws of the simulation and the ass
 
 #### Microprocessor
 
-- The `SUB` instruction is not implemented;
+- ~~The `SUB` instruction is not implemented;~~
 - The `JGE` and `JNE` instructions are not implemented;
 - In some unspecified cases the data bus is undefined;
 - The memory dump is not implemented.
