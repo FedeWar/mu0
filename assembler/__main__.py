@@ -34,10 +34,10 @@ def encode(val):
 	v0 = ('0' + hex(val0)[2:])[-2:]
 	v1 = ('0' + hex(val1)[2:])[-2:]
 
-	print("val0 ", val0)
-	print("val1 ", val1)
-	print("v0 ", v0)
-	print("v1 ", v1)
+	#print("val0 ", val0)
+	#print("val1 ", val1)
+	#print("v0 ", v0)
+	#print("v1 ", v1)
 	return str.encode(v0 + v1 + '\n')
 
 def main():
@@ -49,11 +49,11 @@ def main():
 			else:
 				instr = genInstr(line)
 
-			print("raw ", hex(instr))
+			#print("raw ", hex(instr))
 			data = encode(instr)
-			print("data = ", data)
+			#print("data = ", data)
 			out.write(data)
-			print("---------------")
+			#print("---------------")
 		out.flush()
 
 if __name__ == "__main__":
