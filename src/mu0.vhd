@@ -143,7 +143,7 @@ begin
 				IRce <= '0';
 				ACCoe <= '0';
 				ALUfs <= "XXX";	-- Don't care
-				MEMrq <= '0';
+				MEMrq <= '0';	-- Dump everything
 				RnW <= '1';
 				exfs <= '0';
 				stop_clock <= '1';

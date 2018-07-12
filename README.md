@@ -38,7 +38,7 @@ It is possible to invoke a few commands from the makefile to automatically compi
 
 - Execute the simulation with `make run`
 
-  Runs the simulation of the microprocessor, the executable code is read from `out.hex`. The code has to end with a `STP` instruction, otherwise it will run forever and no useful output will be produced. In the end the memory and all the registers are dumped inside `dump.hex` (not yet implemented).
+  Runs the simulation of the microprocessor, the executable code is read from `out.hex`. The code has to end with a `STP` instruction, otherwise it will run forever and no useful output will be produced. In the end the main memory is dumped inside `dump.hex`, it is recommended to store the accumulator in memory before stopping the execution as the registers cannot be dumped.
 
 ## Known bugs
 
@@ -49,7 +49,7 @@ Here goes the list of all the known bugs and flaws of the simulation and the ass
 - ~~The `SUB` instruction is not implemented;~~
 - ~~The `JGE` and `JNE` instructions are not implemented;~~
 - In some unspecified cases the data bus is undefined;
-- The memory dump is not implemented.
+- ~~The memory dump is not implemented.~~
 
 #### Assembler
 

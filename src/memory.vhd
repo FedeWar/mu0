@@ -40,4 +40,16 @@ begin
 	DATA <= core(to_integer(unsigned(ADDR))) when (MEMrq = '1' and RnW = '1') else "ZZZZZZZZZZZZZZZZ";
 	core(to_integer(unsigned(ADDR))) <= DATA when (MEMrq = '1' and RnW = '0') else core(to_integer(unsigned(ADDR)));
 
+	writeFile: process(MEMrq)
+		file handle : text open WRITE_MODE is "dump.hex";
+		variable ln : line;
+	begin
+		if falling_edge(MEMrq) then
+			for w in 0 to 4095 loop
+				hwrite(ln, unsigned(core(w)));
+				writeline(handle, ln);
+			end loop;
+		end if;
+	end process;
+
 end architecture;
